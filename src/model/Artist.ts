@@ -1,21 +1,31 @@
-export type ArtistOptions = Partial<IArtist>;
+import {ISerializable} from './ISerializable';
 
-export interface IArtist {
+export type ArtistOptions = {
 	id: string;
+} & Partial<{
 	name: string;
 	url: string;
 	imageUrl: string;
 	facebookPageUrl: string;
 	favourite: boolean;
+}>;
+
+export interface IArtist extends ISerializable<ArtistOptions> {
+	readonly id: string;
+	readonly name: string;
+	readonly url: string;
+	readonly imageUrl: string;
+	readonly facebookPageUrl: string;
+	readonly favourite: boolean;
 }
 
 export class Artist implements IArtist {
-	id: string = null;
-	facebookPageUrl: string = null;
-	favourite: boolean = false;
-	imageUrl: string = null;
-	name: string = null;
-	url: string = null;
+	readonly id: string;
+	readonly facebookPageUrl: string;
+	readonly favourite: boolean;
+	readonly imageUrl: string;
+	readonly name: string;
+	readonly url: string;
 
 	constructor(options: ArtistOptions) {
 		if (!options) {
@@ -27,5 +37,16 @@ export class Artist implements IArtist {
 		this.imageUrl = options.imageUrl || null;
 		this.name = options.name || null;
 		this.url = options.url || null;
+	}
+
+	serialize(): ArtistOptions {
+		return {
+			url: this.url,
+			favourite: this.favourite,
+			name: this.name,
+			facebookPageUrl: this.facebookPageUrl,
+			id: this.id,
+			imageUrl: this.imageUrl,
+		};
 	}
 }

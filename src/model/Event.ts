@@ -1,4 +1,19 @@
-export interface IEvent {
+import {ISerializable} from './ISerializable';
+
+export interface IEvent extends ISerializable<EventOptions> {
+	readonly id: string;
+	readonly artistId: string;
+	readonly datetime: string;
+	readonly url: string;
+	readonly description: string;
+	readonly favourite: boolean;
+	readonly locationName: string;
+	readonly city: string;
+}
+
+export type EventOptions = {
+	id: string;
+} & Partial<{
 	id: string;
 	artistId: string;
 	datetime: string;
@@ -7,19 +22,17 @@ export interface IEvent {
 	favourite: boolean;
 	locationName: string;
 	city: string;
-}
-
-export type EventOptions = Partial<IEvent>;
+}>;
 
 export class Event implements IEvent {
-	artistId: string = null;
-	city: string = null;
-	datetime: string = null;
-	description: string = null;
-	id: string = null;
-	favourite: boolean = null;
-	locationName: string = null;
-	url: string = null;
+	readonly artistId: string;
+	readonly city: string;
+	readonly datetime: string;
+	readonly description: string;
+	readonly id: string;
+	readonly favourite: boolean;
+	readonly locationName: string;
+	readonly url: string;
 
 	constructor(options: EventOptions) {
 		if (!options) {
@@ -33,6 +46,19 @@ export class Event implements IEvent {
 		this.favourite = options.favourite || false;
 		this.locationName = options.locationName || null;
 		this.url = options.url || null;
+	}
+
+	serialize(): EventOptions {
+		return {
+			id: this.id,
+			favourite: this.favourite,
+			url: this.url,
+			locationName: this.locationName,
+			description: this.description,
+			datetime: this.datetime,
+			city: this.city,
+			artistId: this.artistId,
+		};
 	}
 
 }

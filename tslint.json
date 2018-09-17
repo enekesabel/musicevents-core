@@ -9,6 +9,9 @@
     ]
   },
   "rules": {
+    "no-increment-decrement": [
+      false
+    ],
     "object-curly-spacing": [
       false
     ],
@@ -17,6 +20,12 @@
       "tab",
       1
     ],
-    "import-name": [false]
+    "import-name": [
+      false
+    ],
+    "align": [
+      false,
+      "arguments"
+    ]
   }
 }
