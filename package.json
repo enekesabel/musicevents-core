@@ -1,0 +1,22 @@
+{
+  "name": "musicevents-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lin/index.js",
+  "scripts": {
+    "test": "test",
+    "build": "tsc ./src/index.ts"
+  },
+  "typings": "./lib/index.d.ts",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.11.0",
+    "typescript": "^3.0.3"
+  }
+}

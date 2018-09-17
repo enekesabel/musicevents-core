@@ -1,0 +1,22 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint-config-airbnb"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "rules": {
+    "object-curly-spacing": [
+      false
+    ],
+    "ter-indent": [
+      true,
+      "tab",
+      1
+    ],
+    "import-name": [false]
+  }
+}
