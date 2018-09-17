@@ -2,11 +2,14 @@
   "name": "musicevents-core",
   "version": "1.0.0",
   "description": "",
-  "main": "./lin/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "test",
-    "build": "tsc ./src/index.ts"
+    "build": "tsc"
   },
+  "files": [
+    "lib"
+  ],
   "typings": "./lib/index.d.ts",
   "author": "",
   "license": "ISC",
