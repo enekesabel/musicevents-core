@@ -3,6 +3,7 @@
     "target": "ES2015",
     "module": "amd",
     "declaration": true,
+    "strictNullChecks": false,
     "outDir": "lib",
     "outFile": "lib/index.js",
     "strict": true
