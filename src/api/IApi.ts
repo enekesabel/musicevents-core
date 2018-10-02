@@ -1,4 +1,4 @@
-export interface IRepository<T> {
+export interface IApi<T> {
   get(id: string): Promise<T>;
 
   getAll(): Promise<T[]>;

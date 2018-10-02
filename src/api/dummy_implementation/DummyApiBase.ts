@@ -1,18 +1,20 @@
-import {IRepository} from './IRepository';
-import {IWebStorage} from './IWebStorage';
-import {ISerializable} from '../model/ISerializable';
+import {ISerializable} from '../../model/ISerializable';
+import {IApi} from '../IApi';
 
 /*
-The responsibility of this repository is act as a
-data access layer, since we have no DB
+Until we have no backend, this class can act as an API implementation.
+It can be also connected to some free music databases using the RemoteApi implementations.
+If it actually fetches data from there, it saves it to the storage.
+It can use any Storage implementation to save data,
+and later return on from there.
  */
 
-export abstract class DummyRepositoryBase<O extends { id: string }, T extends ISerializable<O>>
-  implements IRepository<T> {
-  private storage: IWebStorage;
+export abstract class DummyApiBase<O extends { id: string }, T extends ISerializable<O>>
+  implements IApi<T> {
+  private storage: Storage;
   protected abstract type: string;
 
-  constructor(storage: IWebStorage) {
+  constructor(storage: Storage) {
     this.storage = storage;
   }
 
@@ -100,7 +102,7 @@ export abstract class DummyRepositoryBase<O extends { id: string }, T extends IS
     }, []);
   }
 
-  // getting a single tem, just returning from store
+  // getting a single item, just returning from store
   async get(id: string): Promise<T> {
     return this.getFromStore(id);
   }

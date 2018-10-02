@@ -14,7 +14,6 @@ export interface IEvent extends ISerializable<EventOptions> {
 export type EventOptions = {
   id: string;
 } & Partial<{
-  id: string;
   artistId: string;
   datetime: string;
   url: string;

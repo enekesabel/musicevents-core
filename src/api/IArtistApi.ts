@@ -1,7 +1,11 @@
-import {ArtistOptions} from '../model/Artist';
+import {IArtist} from '../model/Artist';
+import {IApi} from './IApi';
 
-export interface IArtistApi {
-  getArtist(id: string): Promise<ArtistOptions>;
+export interface IArtistApi extends IApi<IArtist> {
 
-  searchArtist(name: string): Promise<ArtistOptions[]>;
+  markFavourite(id: string): Promise<void>;
+
+  unmarkFavourite(id: string): Promise<void>;
+
+  find(artistName: string): Promise<IArtist[]>;
 }
