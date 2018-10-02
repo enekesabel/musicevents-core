@@ -1,7 +1,7 @@
 import {ArtistOptions} from '../model/Artist';
 
 export interface IArtistApi {
-	getArtist(id: string): Promise<ArtistOptions>;
+  getArtist(id: string): Promise<ArtistOptions>;
 
-	searchArtist(name: string): Promise<ArtistOptions[]>;
+  searchArtist(name: string): Promise<ArtistOptions[]>;
 }

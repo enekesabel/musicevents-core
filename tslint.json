@@ -15,11 +15,6 @@
     "object-curly-spacing": [
       false
     ],
-    "ter-indent": [
-      true,
-      "tab",
-      1
-    ],
     "import-name": [
       false
     ],

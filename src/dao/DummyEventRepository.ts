@@ -5,34 +5,34 @@ import {IEventApi} from '../api/IEventApi';
 import {IWebStorage} from './IWebStorage';
 
 export class DummyEventRepository
-	extends DummyRepositoryBase<EventOptions, IEvent>
-	implements IEventRepository {
-	protected type: string = 'event';
-	private eventApi: IEventApi;
+  extends DummyRepositoryBase<EventOptions, IEvent>
+  implements IEventRepository {
+  protected type: string = 'event';
+  private eventApi: IEventApi;
 
-	constructor(webStorage: IWebStorage, eventApi: IEventApi) {
-		super(webStorage);
-		this.eventApi = eventApi;
-	}
+  constructor(webStorage: IWebStorage, eventApi: IEventApi) {
+    super(webStorage);
+    this.eventApi = eventApi;
+  }
 
-	async markFavourite(id: string): Promise<void> {
-		this.update(id, {id, favourite: true});
-	}
+  async markFavourite(id: string): Promise<void> {
+    this.update(id, {id, favourite: true});
+  }
 
-	async unmarkFavourite(id: string): Promise<void> {
-		this.update(id, {id, favourite: false});
-	}
+  async unmarkFavourite(id: string): Promise<void> {
+    this.update(id, {id, favourite: false});
+  }
 
-	protected checkCriteria(artistId: string, item: IEvent): boolean {
-		return item.artistId === artistId;
-	}
+  protected checkCriteria(artistId: string, item: IEvent): boolean {
+    return item.artistId === artistId;
+  }
 
-	protected getInstance(options: EventOptions): IEvent {
-		return new Event(options);
-	}
+  protected getInstance(options: EventOptions): IEvent {
+    return new Event(options);
+  }
 
-	protected async remoteSearch(criteria: string): Promise<EventOptions[]> {
-		return await this.eventApi.getArtistEvents(criteria);
-	}
+  protected async remoteSearch(criteria: string): Promise<EventOptions[]> {
+    return await this.eventApi.getArtistEvents(criteria);
+  }
 
 }

@@ -1,13 +1,13 @@
 export interface IWebStorage {
-	readonly length: number;
+  readonly length: number;
 
-	clear(): void;
+  clear(): void;
 
-	getItem(key: string): string;
+  getItem(key: string): string;
 
-	key(n: number): string;
+  key(n: number): string;
 
-	removeItem(key: string): void;
+  removeItem(key: string): void;
 
-	setItem(key: string, value: string): void;
+  setItem(key: string, value: string): void;
 }

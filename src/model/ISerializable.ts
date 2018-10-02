@@ -1,5 +1,5 @@
 export interface ISerializable<O extends { id: string }> {
-	serialize(): O;
+  serialize(): O;
 
-	id: string;
+  id: string;
 }

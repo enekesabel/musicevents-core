@@ -3,9 +3,9 @@ import {IRepository} from './IRepository';
 
 export interface IArtistRepository extends IRepository<IArtist> {
 
-	markFavourite(id: string): Promise<void>;
+  markFavourite(id: string): Promise<void>;
 
-	unmarkFavourite(id: string): Promise<void>;
+  unmarkFavourite(id: string): Promise<void>;
 
-	find(artistName: string): Promise<IArtist[]>;
+  find(artistName: string): Promise<IArtist[]>;
 }
