@@ -15,6 +15,10 @@
     "object-curly-spacing": [
       false
     ],
+    "max-line-length": [
+      true,
+      180
+    ],
     "import-name": [
       false
     ],

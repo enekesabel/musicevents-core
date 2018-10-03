@@ -31,6 +31,20 @@ export const createNewMockStorage: () => Storage = () => {
   return new DummyWebStorage();
 };
 
-export const fillMockStorage = (storage: Storage, data: { id: string }[]) => {
-  data.forEach(item => storage.setItem(item.id, JSON.stringify(item)));
+export const getAllEntry: (storage: Storage) => any[] = (storage: Storage) => {
+  const options = [];
+  for (let i = 0; i < storage.length; i++) {
+    const key = storage.key(i);
+    const value = storage.getItem(key);
+    options.push(JSON.parse(value));
+  }
+  return options;
+};
+
+export const fillMockStorage = (storage: Storage, entries: { key: string, value: any }[]) => {
+  entries.forEach(entry => storage.setItem(entry.key, JSON.stringify(entry.value)));
+};
+
+export const getParsedItem = (storage: Storage, key: string) => {
+  return JSON.parse(storage.getItem(key));
 };

@@ -23,8 +23,14 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
   }
 
   // saving items
-  private put(item: T) {
-    this.storage.setItem(this.parseKey(item.id), JSON.stringify(item.serialize()));
+  private put(item: T | O) {
+    let option = item;
+
+    // if serializable instance object
+    if ((option as T).serialize instanceof Function) {
+      option = (option as T).serialize();
+    }
+    this.storage.setItem(this.parseKey(item.id), JSON.stringify(option));
   }
 
   // get a single item right from store (sync)
@@ -88,6 +94,8 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
       const alreadySaved = !!localOptions.find(localOption => localOption.id === option.id);
 
       if (!alreadySaved) {
+        // adding to storage
+        this.put(option);
         mergedOptions.push(option);
       }
     });

@@ -22,8 +22,8 @@ export class DummyArtistApi
     this.update(id, {id, favourite: false});
   }
 
-  protected checkCriteria(artistName: string, item: IArtist): boolean {
-    return item.name === artistName;
+  protected checkCriteria(query: string, item: IArtist): boolean {
+    return item.name.indexOf(query) !== -1;
   }
 
   protected getInstance(options: ArtistOptions): IArtist {

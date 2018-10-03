@@ -1,22 +1,110 @@
 import chai, {expect} from 'chai';
-import {createNewMockStorage, fillMockStorage} from './mocks/MockWebStorage';
+import {createNewMockStorage, fillMockStorage, getAllEntry, getParsedItem} from './mocks/MockWebStorage';
 import {MOCK_ARTIST_OPTIONS, MOCK_REMOTE_ARTIST_API} from './mocks/MockRemoteArtistApi';
 import {DummyArtistApi, IArtistApi} from '../src/api/index';
-import sinon from 'sinon';
+import sinon, {SinonSpy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
+import {Artist, ArtistOptions} from '../src/model';
 
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
+const artistApiPrefix = 'artist_'; // DummyArtistApi prepends 'artist_' to id
+
 describe('DummyArtistApi', () => {
 
-  let artistRepository: IArtistApi;
+  let artistApi: IArtistApi;
   let mockWebStorage: Storage;
+  let searchArtistSpy: SinonSpy;
+  let getItemSpy: SinonSpy;
 
   beforeEach(() => {
     mockWebStorage = createNewMockStorage();
-    artistRepository = new DummyArtistApi(mockWebStorage, MOCK_REMOTE_ARTIST_API);
+    artistApi = new DummyArtistApi(mockWebStorage, MOCK_REMOTE_ARTIST_API);
+
+    searchArtistSpy = sinon.spy(MOCK_REMOTE_ARTIST_API, 'searchArtist');
+    getItemSpy = sinon.spy(mockWebStorage, 'getItem');
+  });
+
+  afterEach(() => {
+    searchArtistSpy.restore();
+    getItemSpy.restore();
+  });
+
+  describe('Manipulation store', () => {
+    it('Should return the entry directly from the storage if, we use get', async () => {
+      const dummyId = '0';
+      const dummyEntry = {
+        key: artistApiPrefix + dummyId,
+        value: {
+          id: dummyId,
+        },
+      };
+
+      fillMockStorage(mockWebStorage, [dummyEntry]);
+
+      await artistApi.get(dummyId);
+
+      expect(getItemSpy).to.have.been.calledOnce;
+      expect(searchArtistSpy).to.not.have.been.called;
+    });
+
+    it('Should fetch the remote api every time we use find', async () => {
+      const searchQuery = 'tist';
+
+      await artistApi.find(searchQuery);
+      expect(searchArtistSpy).to.have.been.calledOnceWith(searchQuery);
+    });
+
+    it('Should fill the mock storage with new data, if it fetched new artist from the ArtistApi', async () => {
+
+      // this query should match all dummy artist entry
+      // so all should be put in storage
+      const searchQuery = 'tist';
+
+      await artistApi.find(searchQuery);
+
+      const storageEntries = getAllEntry(mockWebStorage);
+
+      expect(storageEntries).to.include.deep.members(MOCK_ARTIST_OPTIONS);
+      expect(storageEntries).to.be.lengthOf(MOCK_ARTIST_OPTIONS.length);
+    });
+
+    it("Shouldn't manipulate those entries which were already in store when fetching new data", async () => {
+
+      // filling store with modified dummy artist 0 and 1
+      const modifiedDummyArtist0 = {
+        ...MOCK_ARTIST_OPTIONS[0],
+        name: `${MOCK_ARTIST_OPTIONS[0]}_somethingnew`,
+      };
+      const modifiedDummyArtist1 = {
+        ...MOCK_ARTIST_OPTIONS[1],
+        name: `${MOCK_ARTIST_OPTIONS[1]}_somethingnew`,
+      };
+
+      const modifiedArtistEntries = [{
+        key: artistApiPrefix + modifiedDummyArtist0.id,
+        value: modifiedDummyArtist0,
+      }, {
+        key: artistApiPrefix + modifiedDummyArtist1.id,
+        value: modifiedDummyArtist1,
+      }];
+
+      fillMockStorage(mockWebStorage, modifiedArtistEntries);
+
+      // this query should match all dummy artist entry
+      // so all should be put in storage
+      const searchQuery = 'tist';
+
+      await artistApi.find(searchQuery);
+
+      const storageEntries = getAllEntry(mockWebStorage);
+
+      expect(storageEntries).to.include.deep.members([modifiedDummyArtist0, modifiedDummyArtist1]);
+      expect(getParsedItem(mockWebStorage, modifiedArtistEntries[0].key)).to.be.deep.equal(modifiedDummyArtist0);
+      expect(getParsedItem(mockWebStorage, modifiedArtistEntries[1].key)).to.be.deep.equal(modifiedDummyArtist1);
+    });
   });
 
   describe('Finding artists', () => {
@@ -24,57 +112,73 @@ describe('DummyArtistApi', () => {
     it('Should throw an error if an entry is not found', async () => {
       const idToFind = 'idontexist';
 
-      await expect(artistRepository.get(idToFind)).to.have.been.rejected;
+      await expect(artistApi.get(idToFind)).to.have.been.rejected;
     });
 
-    it('Should return the entry directly from the storage if, we use get', async () => {
-      const dummyId = '0';
-      const dummyEntry = {
-        id: `artist_${dummyId}`,
-      };
-
-      fillMockStorage(mockWebStorage, [dummyEntry]);
-
-      const getItemSpy = sinon.spy(mockWebStorage, 'getItem');
-
-      const result = await artistRepository.get(dummyId);
-
-      expect(getItemSpy).to.have.been.calledOnce;
-    });
-
-    it('Should fetch the remote api every time we use find', async () => {
-      const searchQuery = 'tist';
-      const searchArtistSpy = sinon.spy(MOCK_REMOTE_ARTIST_API, 'searchArtist');
-
-      await artistRepository.find(searchQuery);
-      expect(searchArtistSpy).to.have.been.calledOnceWith(searchQuery);
-    });
-
-    it('Should find artists based on a part of a name', async () => {
+    it('Should be able to find multiple artists a part of a name', async () => {
       const searchQuery = 'tist';
 
       const expectedResult = MOCK_ARTIST_OPTIONS.filter((a) => {
         return a.name.indexOf(searchQuery) !== -1;
-      });
+      }).map(artistOption => new Artist(artistOption));
 
-      const result = await artistRepository.find(searchQuery);
+      const result = await artistApi.find(searchQuery);
 
-      expect(result).to.include.members(expectedResult);
+      expect(result).to.include.deep.members(expectedResult);
       expect(result).to.be.lengthOf(expectedResult.length);
     });
 
-    it('Should correctly filter the artists', async () => {
+    it('Should be able to find a single artist', async () => {
       const searchQuery = MOCK_ARTIST_OPTIONS[0].name;
-      const searchArtistSpy = sinon.spy(MOCK_REMOTE_ARTIST_API, 'searchArtist');
-      const expectedResult = [MOCK_ARTIST_OPTIONS[0]];
+      const expectedResult = [new Artist(MOCK_ARTIST_OPTIONS[0])];
 
-      const result = await artistRepository.find(searchQuery);
+      const result = await artistApi.find(searchQuery);
 
-      expect(searchArtistSpy).to.have.been.calledOnceWith(searchQuery);
-
-      expect(result).to.include.members(expectedResult);
+      expect(result).to.include.deep.members(expectedResult);
       expect(result).to.be.lengthOf(expectedResult.length);
     });
   });
 
+  describe('Updating artist', () => {
+
+    beforeEach(() => {
+      fillMockStorageWithArtistOptions(mockWebStorage, MOCK_ARTIST_OPTIONS);
+    });
+
+    it('Should be able to mark an artist as favourite', async () => {
+
+      const idToMark = MOCK_ARTIST_OPTIONS[0].id;
+
+      await artistApi.markFavourite(idToMark);
+
+      const result = await artistApi.get(idToMark);
+
+      expect(result.favourite).to.be.true;
+    });
+
+    it('Should be able to unmark an already favourite artist', async () => {
+
+      const idToMark = MOCK_ARTIST_OPTIONS[0].id;
+
+      await artistApi.markFavourite(idToMark);
+      await artistApi.unmarkFavourite(idToMark);
+
+      const result = await artistApi.get(idToMark);
+
+      expect(result.favourite).to.be.false;
+    });
+
+  });
+
 });
+
+const fillMockStorageWithArtistOptions = (storage: Storage, artistOptions: ArtistOptions[]) => {
+  const entries = artistOptions.map((option) => {
+    return {
+      key: artistApiPrefix + option.id,
+      value: option,
+    };
+  });
+
+  fillMockStorage(storage, entries);
+};
