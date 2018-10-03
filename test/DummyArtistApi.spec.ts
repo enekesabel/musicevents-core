@@ -1,7 +1,7 @@
 import chai, {expect} from 'chai';
 import {createNewMockStorage, fillMockStorage, getAllEntry, getParsedItem} from './mocks/MockWebStorage';
 import {MOCK_ARTIST_OPTIONS, MOCK_REMOTE_ARTIST_API} from './mocks/MockRemoteArtistApi';
-import {DummyArtistApi, IArtistApi} from '../src/api/index';
+import {DummyArtistApi, IArtistApi} from '../src/api';
 import sinon, {SinonSpy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
