@@ -1,4 +1,4 @@
-import {EventOptions} from '../../src/model/index';
+import {EventOptions} from '../../src/model';
 import {IRemoteEventApi} from '../../src/api/dummy_implementation/IRemoteEventApi';
 
 // tslint:disable-next-line

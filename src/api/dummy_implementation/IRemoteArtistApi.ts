@@ -1,4 +1,4 @@
-import {ArtistOptions} from '../../model/Artist';
+import {ArtistOptions} from '../../model';
 
 export interface IRemoteArtistApi {
   getArtist(id: string): Promise<ArtistOptions>;

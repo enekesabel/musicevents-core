@@ -1,5 +1,5 @@
 import {DummyApiBase} from './DummyApiBase';
-import {Event, EventOptions, IEvent} from '../../model/Event';
+import {Event, EventOptions, IEvent} from '../../model';
 import {IEventApi} from '../IEventApi';
 import {IRemoteEventApi} from './IRemoteEventApi';
 

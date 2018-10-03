@@ -1,4 +1,4 @@
-import {IArtist} from '../model/Artist';
+import {IArtist} from '../model';
 import {IApi} from './IApi';
 
 export interface IArtistApi extends IApi<IArtist> {

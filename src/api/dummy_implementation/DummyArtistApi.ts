@@ -1,4 +1,4 @@
-import {Artist, ArtistOptions, IArtist} from '../../model/Artist';
+import {Artist, ArtistOptions, IArtist} from '../../model';
 import {DummyApiBase} from './DummyApiBase';
 import {IArtistApi} from '../IArtistApi';
 import {IRemoteArtistApi} from './IRemoteArtistApi';

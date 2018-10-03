@@ -1,4 +1,4 @@
-import {IEvent} from '../model/Event';
+import {IEvent} from '../model';
 import {IApi} from './IApi';
 
 export interface IEventApi extends IApi<IEvent> {

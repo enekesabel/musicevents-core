@@ -1,4 +1,4 @@
-import {ISerializable} from '../../model/ISerializable';
+import {ISerializable} from '../../model';
 import {IApi} from '../IApi';
 
 /*

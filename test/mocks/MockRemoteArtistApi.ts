@@ -1,4 +1,4 @@
-import {ArtistOptions} from '../../src/model/index';
+import {ArtistOptions} from '../../src/model';
 import {IRemoteArtistApi} from '../../src/api/dummy_implementation/IRemoteArtistApi';
 
 // tslint:disable-next-line
