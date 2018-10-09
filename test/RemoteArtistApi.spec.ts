@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 describe('RemoteArtistApi', () => {
 
-  const artistOptionKeys = ['id', 'name', 'url', 'imageUrl', 'facebookPageUrl', 'favourite'];
+  const artistOptionKeys = ['id', 'name', 'imageUrl', 'facebookPageUrl', 'favourite'];
   const axiosInstance: AxiosInstance = axios;
   let remoteArtistApi: IRemoteArtistApi;
   let axiosStub: SinonStub;

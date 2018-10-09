@@ -7,7 +7,6 @@ export class Artist implements IArtist {
   readonly favourite: boolean;
   readonly imageUrl: string;
   readonly name: string;
-  readonly url: string;
 
   constructor(options: ArtistOptions) {
     if (!options) {
@@ -18,12 +17,10 @@ export class Artist implements IArtist {
     this.favourite = options.favourite || false;
     this.imageUrl = options.imageUrl || null;
     this.name = options.name || null;
-    this.url = options.url || null;
   }
 
   serialize(): ArtistOptions {
     return {
-      url: this.url,
       favourite: this.favourite,
       name: this.name,
       facebookPageUrl: this.facebookPageUrl,

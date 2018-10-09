@@ -9,7 +9,6 @@ export class Event implements IEvent {
   readonly id: string;
   readonly favourite: boolean;
   readonly locationName: string;
-  readonly url: string;
 
   constructor(options: EventOptions) {
     if (!options) {
@@ -22,14 +21,12 @@ export class Event implements IEvent {
     this.id = options.id || null;
     this.favourite = options.favourite || false;
     this.locationName = options.locationName || null;
-    this.url = options.url || null;
   }
 
   serialize(): EventOptions {
     return {
       id: this.id,
       favourite: this.favourite,
-      url: this.url,
       locationName: this.locationName,
       description: this.description,
       datetime: this.datetime,

@@ -3,7 +3,6 @@ export type EventOptions = {
 } & Partial<{
   artistId: string;
   datetime: string;
-  url: string;
   description: string;
   favourite: boolean;
   locationName: string;

@@ -20,7 +20,6 @@ export class RemoteArtistApi implements IRemoteArtistApi {
       name: response.data.name,
       facebookPageUrl: response.data.facebook_page_url,
       imageUrl: response.data.image_url,
-      url: response.data.url,
       favourite: false,
     };
   }
