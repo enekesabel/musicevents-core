@@ -1,26 +1,5 @@
-import {ISerializable} from './ISerializable';
-
-export type ArtistSearchOptions = {
-  name: string,
-};
-
-export type ArtistOptions = {
-  id: string;
-} & Partial<ArtistSearchOptions & {
-  url: string;
-  imageUrl: string;
-  facebookPageUrl: string;
-  favourite: boolean;
-}>;
-
-export interface IArtist extends ISerializable<ArtistOptions> {
-  readonly id: string;
-  readonly name: string;
-  readonly url: string;
-  readonly imageUrl: string;
-  readonly facebookPageUrl: string;
-  readonly favourite: boolean;
-}
+import {IArtist} from './IArtist';
+import {ArtistOptions} from './ArtistOptions';
 
 export class Artist implements IArtist {
   readonly id: string;

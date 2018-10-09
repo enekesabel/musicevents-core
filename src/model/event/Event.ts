@@ -1,27 +1,5 @@
-import {ISerializable} from './ISerializable';
-
-export interface IEvent extends ISerializable<EventOptions> {
-  readonly id: string;
-  readonly artistId: string;
-  readonly datetime: string;
-  readonly url: string;
-  readonly description: string;
-  readonly favourite: boolean;
-  readonly locationName: string;
-  readonly city: string;
-}
-
-export type EventOptions = {
-  id: string;
-} & Partial<{
-  artistId: string;
-  datetime: string;
-  url: string;
-  description: string;
-  favourite: boolean;
-  locationName: string;
-  city: string;
-}>;
+import {IEvent} from './IEvent';
+import {EventOptions} from './EventOptions';
 
 export class Event implements IEvent {
   readonly artistId: string;

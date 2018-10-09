@@ -1,3 +1,3 @@
-export * from './Artist';
-export * from './Event';
+export * from './artist';
+export * from './event';
 export * from './ISerializable';
