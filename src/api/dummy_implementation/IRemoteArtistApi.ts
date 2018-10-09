@@ -1,7 +1,7 @@
-import {ArtistOptions} from '../../model';
+import {ArtistOptions, ArtistSearchOptions} from '../../model';
 
 export interface IRemoteArtistApi {
-  getArtist(id: string): Promise<ArtistOptions>;
+  getArtist(name: string): Promise<ArtistOptions>;
 
-  searchArtist(name: string): Promise<ArtistOptions[]>;
+  searchArtist(name: string): Promise<ArtistSearchOptions[]>;
 }

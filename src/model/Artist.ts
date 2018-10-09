@@ -1,9 +1,12 @@
 import {ISerializable} from './ISerializable';
 
+export type ArtistSearchOptions = {
+  name: string,
+};
+
 export type ArtistOptions = {
   id: string;
-} & Partial<{
-  name: string;
+} & Partial<ArtistSearchOptions & {
   url: string;
   imageUrl: string;
   facebookPageUrl: string;
