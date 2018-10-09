@@ -30,7 +30,7 @@ export class DummyEventApi
     return new Event(options);
   }
 
-  protected async remoteSearch(criteria: string): Promise<EventOptions[]> {
+  protected async remoteFind(criteria: string): Promise<EventOptions[]> {
     return await this.eventApi.getArtistEvents(criteria);
   }
 

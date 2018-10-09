@@ -22,17 +22,6 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
     return `${this.type}_${id}`;
   }
 
-  // saving items
-  private put(item: T | O) {
-    let option = item;
-
-    // if serializable instance object
-    if ((option as T).serialize instanceof Function) {
-      option = (option as T).serialize();
-    }
-    this.storage.setItem(this.parseKey(item.id), JSON.stringify(option));
-  }
-
   // get a single item right from store (sync)
   private getFromStore(id: string): T {
     const result = this.storage.getItem(this.parseKey(id));
@@ -62,7 +51,18 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
   protected abstract checkCriteria(criteria: string, item: T): boolean;
 
   // does search online
-  protected abstract remoteSearch(criteria: string): Promise<O[]>;
+  protected abstract remoteFind(criteria: string): Promise<O[]>;
+
+  // saving items
+  protected put(item: T | O) {
+    let option = item;
+
+    // if serializable instance object
+    if ((option as T).serialize instanceof Function) {
+      option = (option as T).serialize();
+    }
+    this.storage.setItem(this.parseKey(item.id), JSON.stringify(option));
+  }
 
   protected update(id: string, options: O): void {
     const item = this.getFromStore(id);
@@ -87,7 +87,7 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
   // doing online search + return from store
   async find(criteria: string): Promise<T[]> {
     const localOptions = this.getAllOptions();
-    const fetchedOptions = await this.remoteSearch(criteria);
+    const fetchedOptions = await this.remoteFind(criteria);
     const mergedOptions = [...localOptions];
 
     fetchedOptions.forEach((option) => {

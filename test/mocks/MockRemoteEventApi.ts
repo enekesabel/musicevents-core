@@ -1,22 +1,12 @@
 import {EventOptions} from '../../src/model';
 import {IRemoteEventApi} from '../../src/api/dummy_implementation/IRemoteEventApi';
+import {MOCK_EVENT_OPTIONS} from './MockOptions';
 
 // tslint:disable-next-line
 export const MOCK_REMOTE_EVENT_API: IRemoteEventApi = {
-  getArtistEvents(artistName: string): Promise<EventOptions[]> {
-    return undefined;
+  async getArtistEvents(artistName: string): Promise<EventOptions[]> {
+    return MOCK_EVENT_OPTIONS.filter((event) => {
+      return event.artistName === artistName;
+    });
   },
 };
-
-export const DUMMY_EVENTS: EventOptions[] = [];
-for (let i = 0; i < 10; i++) {
-  DUMMY_EVENTS.push({
-    id: i.toString(),
-    artistId: `dummy_artist_id_${i}`,
-    datetime: `dummy_datetime_${i}`,
-    url: `dummy_url_${i}`,
-    favourite: false,
-    locationName: `dummy_location_name_${i}`,
-    city: `dummy__city_${i}`,
-  });
-}

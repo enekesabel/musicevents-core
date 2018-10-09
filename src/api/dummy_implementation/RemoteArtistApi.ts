@@ -9,7 +9,7 @@ export class RemoteArtistApi implements IRemoteArtistApi {
   }
 
   async getArtist(name: string): Promise<ArtistOptions> {
-    const response = await this.axiosInstance.get(`${BANDSINTOWN_URL}/${name}`, {
+    const response = await this.axiosInstance.get(`${BANDSINTOWN_URL}/artists/${name}`, {
       params: {
         app_id: API_KEY,
       },

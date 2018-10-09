@@ -2,6 +2,7 @@ import {Artist, ArtistOptions, IArtist} from '../../model';
 import {DummyApiBase} from './DummyApiBase';
 import {IArtistApi} from '../IArtistApi';
 import {IRemoteArtistApi} from './IRemoteArtistApi';
+import {ArtistSearchOptions} from '../../model/artist';
 
 export class DummyArtistApi
   extends DummyApiBase<ArtistOptions, IArtist>
@@ -12,6 +13,22 @@ export class DummyArtistApi
   constructor(webStorage: Storage, artistApi: IRemoteArtistApi) {
     super(webStorage);
     this.artistApi = artistApi;
+  }
+
+  private getAndSaveArtists(artists: ArtistSearchOptions[]) {
+    // not nice but ok for now
+    // trying to fetch & save artists which appeared in search
+    // doesn't matter if some request fails, so no need for Promise.all
+    artists.forEach(async (artist) => {
+      const result = await this.artistApi.getArtist(artist.name);
+      this.put(result);
+    });
+  }
+
+  async search(artistName: string): Promise<ArtistSearchOptions[]> {
+    const artists: ArtistSearchOptions[] = await this.artistApi.searchArtist(artistName);
+    this.getAndSaveArtists(artists);
+    return artists;
   }
 
   async markFavourite(id: string): Promise<void> {
@@ -30,8 +47,8 @@ export class DummyArtistApi
     return new Artist(options);
   }
 
-  protected async remoteSearch(criteria: string): Promise<ArtistOptions[]> {
-    return await this.artistApi.searchArtist(criteria);
+  protected async remoteFind(criteria: string): Promise<ArtistOptions[]> {
+    return [];
   }
 
 }
