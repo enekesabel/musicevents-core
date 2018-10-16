@@ -1,12 +1,12 @@
 {
   "name": "@s0me1/musicevents-core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
     "test": "mocha -r ./test-utils ./test/*.spec.ts",
     "build": "tsc",
-    "patch": "npm run build & npm version patch"
+    "patch": "npm run build && npm version patch"
   },
   "files": [
     "lib/*",
