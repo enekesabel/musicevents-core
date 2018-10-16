@@ -1,16 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "amd",
+    "target": "esnext",
+    "module": "esnext",
     "declaration": true,
+    "strictNullChecks": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "lib",
-    "outFile": "lib/index.js",
     "strict": true
   },
   "include": [
     "src/**/*"
   ],
   "types": [
-    "axios"
+    "axios",
+    "mocha",
+    "chai"
   ]
 }

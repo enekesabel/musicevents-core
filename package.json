@@ -1,23 +1,43 @@
 {
-  "name": "musicevents-core",
-  "version": "1.0.0",
+  "name": "@s0me1/musicevents-core",
+  "version": "1.0.1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "test",
+    "test": "mocha -r ./test-utils ./test/*.spec.ts",
     "build": "tsc"
   },
   "files": [
-    "lib"
+    "lib/*",
+    "src/*",
+    "*.json",
+    "*.js"
   ],
   "typings": "./lib/index.d.ts",
-  "author": "",
+  "author": "s0me1",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^0.18.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/chai": "^4.1.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.11.3",
+    "@types/sinon-chai": "^3.2.0",
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "jsdom": "^12.1.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.3.3",
+    "sinon-chai": "^3.2.0",
+    "ts-babel-node": "git+https://github.com/enekesabel/ts-babel-node.git",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
     "typescript": "^3.0.3"
