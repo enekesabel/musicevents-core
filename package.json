@@ -1,5 +1,5 @@
 {
-  "name": "musicevents-core",
+  "name": "@s0me1/musicevents-core",
   "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
@@ -8,12 +8,15 @@
     "build": "tsc"
   },
   "files": [
-    "lib"
+    "lib/*",
+    "src/*",
+    "*.json",
+    "*.js"
   ],
   "typings": "./lib/index.d.ts",
-  "author": "",
+  "author": "s0me1",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^0.18.0"
   },
   "devDependencies": {
@@ -23,6 +26,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.3",
     "@types/sinon-chai": "^3.2.0",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
