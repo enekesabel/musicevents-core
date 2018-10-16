@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "mocha -r ./test-utils ./test/*.spec.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "patch": "npx build & npm version patch"
   },
   "files": [
     "lib/*",
