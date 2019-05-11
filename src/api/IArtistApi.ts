@@ -1,6 +1,5 @@
 import {IArtist} from '../model';
 import {IApi} from './IApi';
-import {ArtistSearchOptions} from '../model/artist';
 
 export interface IArtistApi extends IApi<IArtist> {
 
@@ -10,5 +9,5 @@ export interface IArtistApi extends IApi<IArtist> {
 
   find(artistName: string): Promise<IArtist[]>;
 
-  search(artistName: string): Promise<ArtistSearchOptions[]>;
+  search(artistName: string): Promise<IArtist[]>;
 }

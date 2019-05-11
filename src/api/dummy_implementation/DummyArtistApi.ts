@@ -1,8 +1,7 @@
-import {Artist, ArtistOptions, IArtist} from '../../model';
+import {Artist, ArtistOptions, ArtistSearchOptions, IArtist} from '../../model';
 import {DummyApiBase} from './DummyApiBase';
 import {IArtistApi} from '../IArtistApi';
 import {IRemoteArtistApi} from './IRemoteArtistApi';
-import {ArtistSearchOptions} from '../../model/artist';
 
 export class DummyArtistApi
   extends DummyApiBase<ArtistOptions, IArtist>
@@ -15,10 +14,10 @@ export class DummyArtistApi
     this.artistApi = artistApi;
   }
 
-  private async getAndSaveArtists(artists: ArtistSearchOptions[]): Promise<ArtistSearchOptions[]> {
+  private async getAndSaveArtists(artists: ArtistSearchOptions[]): Promise<IArtist[]> {
     const promises = artists.map(async (artist) => {
       try {
-        const response = await this.artistApi.getArtist(artist.name);
+        const response = this.getInstance(await this.artistApi.getArtist(artist.name));
         try {
           const found = await this.get(response.id);
           if (found) {
@@ -35,16 +34,12 @@ export class DummyArtistApi
       }
     });
 
-    const responses: (ArtistOptions | null)[] = await Promise.all(promises);
-    const foundOnes: ArtistOptions[] = responses.filter(r => !!r);
-
-    return foundOnes.map(a => ({
-      name: a.name,
-    }));
+    const responses: (IArtist | null)[] = await Promise.all(promises);
+    return responses.filter(r => !!r);
   }
 
-  async search(artistName: string): Promise<ArtistSearchOptions[]> {
-    const alreadyFoundArtists = (await this.find(artistName)).map(a => ({name: a.name}));
+  async search(artistName: string): Promise<IArtist[]> {
+    const alreadyFoundArtists = await this.find(artistName);
     const alreadyFoundNames = alreadyFoundArtists.map(a => a.name);
     const artists: ArtistSearchOptions[] = await this.artistApi.searchArtist(artistName);
 
