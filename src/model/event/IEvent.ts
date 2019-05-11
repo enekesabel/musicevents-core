@@ -9,4 +9,5 @@ export interface IEvent extends ISerializable<EventOptions> {
   readonly favourite: boolean;
   readonly locationName: string;
   readonly city: string;
+  readonly lineup: string[];
 }

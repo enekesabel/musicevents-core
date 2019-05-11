@@ -7,4 +7,5 @@ export type EventOptions = {
   favourite: boolean;
   locationName: string;
   city: string;
+  lineup: string[];
 }>;
