@@ -59,7 +59,7 @@ export class DummyArtistApi
   }
 
   protected checkCriteria(query: string, item: IArtist): boolean {
-    return item.name.indexOf(query) !== -1;
+    return item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
   protected getInstance(options: ArtistOptions): IArtist {
