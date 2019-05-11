@@ -4,7 +4,7 @@ import {IArtistApi} from '../IArtistApi';
 import {IRemoteArtistApi} from './IRemoteArtistApi';
 
 export class DummyArtistApi
-  extends DummyApiBase<ArtistOptions, IArtist>
+  extends DummyApiBase<ArtistOptions, IArtist, string>
   implements IArtistApi {
   protected type: string = 'artist';
   private artistApi: IRemoteArtistApi;

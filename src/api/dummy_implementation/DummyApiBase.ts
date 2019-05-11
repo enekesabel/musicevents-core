@@ -9,8 +9,8 @@ It can use any Storage implementation to save data,
 and later return on from there.
  */
 
-export abstract class DummyApiBase<O extends { id: string }, T extends ISerializable<O>>
-  implements IApi<T> {
+export abstract class DummyApiBase<O extends { id: string }, T extends ISerializable<O>, C>
+  implements IApi<T, C> {
   private storage: Storage;
   protected abstract type: string;
 
@@ -48,10 +48,10 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
   protected abstract getInstance(options: O): T;
 
   // function used in the find method to decide which items to return
-  protected abstract checkCriteria(criteria: string, item: T): boolean;
+  protected abstract checkCriteria(criteria: C, item: T): boolean;
 
   // does search online
-  protected abstract remoteFind(criteria: string): Promise<O[]>;
+  protected abstract remoteFind(criteria: C): Promise<O[]>;
 
   // saving items
   protected put(item: T | O) {
@@ -85,7 +85,7 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
 
   // searching from items
   // doing online search + return from store
-  async find(criteria: string): Promise<T[]> {
+  async find(criteria: C): Promise<T[]> {
     const localOptions = this.getAllOptions();
     const fetchedOptions = await this.remoteFind(criteria);
     const mergedOptions = [...localOptions];

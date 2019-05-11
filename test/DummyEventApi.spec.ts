@@ -4,7 +4,7 @@ import {DummyEventApi, IEventApi} from '../src/api';
 import sinon, {SinonSpy} from 'sinon';
 import sinonChai from 'sinon-chai';
 import chaiAsPromised from 'chai-as-promised';
-import {Event, EventOptions} from '../src/model';
+import {Artist, Event, EventOptions} from '../src/model';
 import {MOCK_REMOTE_EVENT_API} from './mocks/MockRemoteEventApi';
 import {MOCK_ARTIST_OPTIONS, MOCK_EVENT_OPTIONS} from './mocks/MockOptions';
 
@@ -36,10 +36,9 @@ describe('DummyEventApi', () => {
   describe('Manipulating store', () => {
 
     it('Should fetch the remote api every time we use find', async () => {
-      const searchQuery = 'tist';
-
-      await eventApi.find(searchQuery);
-      expect(getArtistEventsSpy).to.have.been.calledOnceWith(searchQuery);
+      const artist = new Artist(MOCK_ARTIST_OPTIONS[0]);
+      await eventApi.find(artist);
+      expect(getArtistEventsSpy).to.have.been.calledOnce;
     });
   });
 
@@ -62,17 +61,16 @@ describe('DummyEventApi', () => {
         return a.artistName.indexOf(searchQuery) !== -1;
       }).map(eventOption => new Event(eventOption));
 
-      const result = await eventApi.find(searchQuery);
+      const result = await eventApi.find(new Artist(MOCK_ARTIST_OPTIONS[0]));
 
       expect(result).to.include.deep.members(expectedResult);
       expect(result).to.be.lengthOf(expectedResult.length);
     });
 
     it('Should be able to find a single event', async () => {
-      const searchQuery = MOCK_EVENT_OPTIONS[0].id;
       const expectedResult = [new Event(MOCK_EVENT_OPTIONS[0])];
 
-      const result = await eventApi.find(searchQuery);
+      const result = await eventApi.find(new Artist(MOCK_EVENT_OPTIONS[0]));
 
       expect(result).to.include.deep.members(expectedResult);
       expect(result).to.be.lengthOf(expectedResult.length);

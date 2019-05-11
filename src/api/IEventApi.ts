@@ -1,11 +1,11 @@
-import {IEvent} from '../model';
+import {IArtist, IEvent} from '../model';
 import {IApi} from './IApi';
 
-export interface IEventApi extends IApi<IEvent> {
+export interface IEventApi extends IApi<IEvent, IArtist> {
 
   markFavourite(id: string): Promise<void>;
 
   unmarkFavourite(id: string): Promise<void>;
 
-  find(artistName: string): Promise<IEvent[]>;
+  find(artist: IArtist): Promise<IEvent[]>;
 }

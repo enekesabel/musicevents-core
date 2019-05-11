@@ -1,7 +1,7 @@
 import {IArtist} from '../model';
 import {IApi} from './IApi';
 
-export interface IArtistApi extends IApi<IArtist> {
+export interface IArtistApi extends IApi<IArtist, string> {
 
   markFavourite(id: string): Promise<void>;
 
