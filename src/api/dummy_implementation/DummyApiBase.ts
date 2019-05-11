@@ -28,6 +28,10 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
     return this.getInstance(JSON.parse(result));
   }
 
+  private parseKey(id: string): string {
+    return `${this.type}_${id}`;
+  }
+
   private getAllOptions(): O[] {
     const options: O[] = [];
     for (let i = 0; i < this.storage.length; i++) {
@@ -48,10 +52,6 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
 
   // does search online
   protected abstract remoteFind(criteria: string): Promise<O[]>;
-
-  protected parseKey(id: string): string {
-    return `${this.type}_${id}`;
-  }
 
   // saving items
   protected put(item: T | O) {

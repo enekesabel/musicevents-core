@@ -20,10 +20,15 @@ export class DummyArtistApi
       try {
         const response = await this.artistApi.getArtist(artist.name);
 
-        const found = await this.get(this.parseKey(response.id));
-        if (found) {
-          return null;
+        try {
+          const found = await this.get(response.id);
+          if (found) {
+            return null;
+          }
+        } catch (e) {
+
         }
+
         this.put(response);
         return response;
       } catch (e) {
