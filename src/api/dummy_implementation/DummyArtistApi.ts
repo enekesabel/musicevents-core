@@ -19,7 +19,6 @@ export class DummyArtistApi
     const promises = artists.map(async (artist) => {
       try {
         const response = await this.artistApi.getArtist(artist.name);
-
         try {
           const found = await this.get(response.id);
           if (found) {

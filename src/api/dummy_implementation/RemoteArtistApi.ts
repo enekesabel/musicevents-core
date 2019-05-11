@@ -14,6 +14,9 @@ export class RemoteArtistApi implements IRemoteArtistApi {
         app_id: API_KEY,
       },
     });
+    if (!response.data || !response.data.id) {
+      throw new Error('Couldn\'t process response');
+    }
 
     return {
       id: response.data.id,
