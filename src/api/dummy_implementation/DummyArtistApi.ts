@@ -15,20 +15,28 @@ export class DummyArtistApi
     this.artistApi = artistApi;
   }
 
-  private getAndSaveArtists(artists: ArtistSearchOptions[]) {
-    // not nice but ok for now
-    // trying to fetch & save artists which appeared in search
-    // doesn't matter if some request fails, so no need for Promise.all
-    artists.forEach(async (artist) => {
-      const result = await this.artistApi.getArtist(artist.name);
-      this.put(result);
+  private async getAndSaveArtists(artists: ArtistSearchOptions[]): Promise<ArtistSearchOptions[]> {
+    const promises = artists.map(async (artist) => {
+      try {
+        const response = await this.artistApi.getArtist(artist.name);
+        this.put(response);
+        return response;
+      } catch (e) {
+        return null;
+      }
     });
+
+    const responses: (ArtistOptions | null)[] = await Promise.all(promises);
+    const foundOnes: ArtistOptions[] = responses.filter(r => !!r);
+
+    return foundOnes.map(a => ({
+      name: a.name,
+    }));
   }
 
   async search(artistName: string): Promise<ArtistSearchOptions[]> {
     const artists: ArtistSearchOptions[] = await this.artistApi.searchArtist(artistName);
-    this.getAndSaveArtists(artists);
-    return artists;
+    return await this.getAndSaveArtists(artists);
   }
 
   async markFavourite(id: string): Promise<void> {
