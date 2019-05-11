@@ -84,11 +84,11 @@ describe('DummyArtistApi', () => {
       // filling store with modified dummy artist 0 and 1
       const modifiedDummyArtist0 = {
         ...MOCK_ARTIST_OPTIONS[0],
-        name: `${MOCK_ARTIST_OPTIONS[0]}_somethingnew`,
+        name: `${MOCK_ARTIST_OPTIONS[0].name}_somethingnew`,
       };
       const modifiedDummyArtist1 = {
         ...MOCK_ARTIST_OPTIONS[1],
-        name: `${MOCK_ARTIST_OPTIONS[1]}_somethingnew`,
+        name: `${MOCK_ARTIST_OPTIONS[1].name}_somethingnew`,
       };
 
       const modifiedArtistEntries = [{
@@ -105,7 +105,7 @@ describe('DummyArtistApi', () => {
       // so all should be put in storage
       const searchQuery = 'tist';
 
-      await artistApi.find(searchQuery);
+      await artistApi.search(searchQuery);
 
       const storageEntries = getAllEntry(mockWebStorage);
 

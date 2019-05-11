@@ -19,6 +19,11 @@ export class DummyArtistApi
     const promises = artists.map(async (artist) => {
       try {
         const response = await this.artistApi.getArtist(artist.name);
+
+        const found = await this.get(this.parseKey(response.id));
+        if (found) {
+          return null;
+        }
         this.put(response);
         return response;
       } catch (e) {
@@ -35,8 +40,14 @@ export class DummyArtistApi
   }
 
   async search(artistName: string): Promise<ArtistSearchOptions[]> {
+    const alreadyFoundArtists = (await this.find(artistName)).map(a => ({name: a.name}));
+    const alreadyFoundNames = alreadyFoundArtists.map(a => a.name);
     const artists: ArtistSearchOptions[] = await this.artistApi.searchArtist(artistName);
-    return await this.getAndSaveArtists(artists);
+
+    const newEntries = artists.filter(a => alreadyFoundNames.indexOf(a.name) === -1);
+    const existingNewEntries = await this.getAndSaveArtists(newEntries);
+
+    return [...existingNewEntries, ...alreadyFoundArtists];
   }
 
   async markFavourite(id: string): Promise<void> {

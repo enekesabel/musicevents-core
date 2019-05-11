@@ -18,10 +18,6 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
     this.storage = storage;
   }
 
-  private parseKey(id: string): string {
-    return `${this.type}_${id}`;
-  }
-
   // get a single item right from store (sync)
   private getFromStore(id: string): T {
     const result = this.storage.getItem(this.parseKey(id));
@@ -52,6 +48,10 @@ export abstract class DummyApiBase<O extends { id: string }, T extends ISerializ
 
   // does search online
   protected abstract remoteFind(criteria: string): Promise<O[]>;
+
+  protected parseKey(id: string): string {
+    return `${this.type}_${id}`;
+  }
 
   // saving items
   protected put(item: T | O) {
