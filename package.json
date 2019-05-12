@@ -1,6 +1,6 @@
 {
   "name": "@s0me1/musicevents-core",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
