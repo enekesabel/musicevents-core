@@ -34,6 +34,7 @@ export class Event implements IEvent {
       datetime: this.datetime,
       city: this.city,
       artistId: this.artistId,
+      lineup: this.lineup,
     };
   }
 

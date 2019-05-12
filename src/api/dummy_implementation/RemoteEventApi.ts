@@ -17,19 +17,14 @@ export class RemoteEventApi implements IRemoteEventApi {
 
     const events: any [] = response.data;
 
-    const eventOptions: EventOptions[] = [];
-
-    events.forEach((event) => {
-      eventOptions.push({
-        favourite: false,
-        id: event.id,
-        artistId: event.artist_id,
-        city: event.venue.city,
-        datetime: event.datetime,
-        locationName: event.venue.name,
-      });
-    });
-
-    return eventOptions;
+    return events.map(event => ({
+      favourite: false,
+      id: event.id,
+      artistId: event.artist_id,
+      city: event.venue.city,
+      datetime: event.datetime,
+      locationName: event.venue.name,
+      lineup: event.lineup,
+    }));
   }
 }
